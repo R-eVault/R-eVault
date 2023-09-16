@@ -1,0 +1,33 @@
+-> Lawyer and Judge authenticated using Id's provide by bar council of india
+   ( we use third party-api to authenticated this Id's)
+-> there are role base permissions which was predifine by us for every stackholders.
+-> we use IPFS to store the files in blockchian
+-> use Ethreum blockchian for smart contracts
+-> encruption algorithem apply before storing file 
+    symetric Encription  one Key
+    Asymetric Encription two Key
+    hybrid Encription 
+-> tools for encruption
+    OpenSSL,
+    GPG,
+    LibraSSL,
+    CrypTool,
+-> while someOne Retrive file than if he/she has Encription key than only able to see the data.
+-> Only Judge and Lawyer can add the data. Client can only see data if permissions granted.
+-> there are data which is according to case (mentioned by Lawyer).
+-> Lawyer/Judge can able to share the data with permissions.
+-> Lawyer/Judge can edit or delete data which they uploaded.
+
+-> Components (Lowyer/judge)
+   * Login/SingUp for diffrent stackholders,
+   * Dashboard (which contains all Cases List Which are running...) and (addCase button)
+   * Click on the perticular case show all the data(files)... and (upload button)
+   * in every file there is option of Edit ,delete, share , view
+   * Form for adding Data , Edit data
+   * In perticular Case Lowyer can add the client by client Id(so that client can view documents );
+
+-> Components (Client)
+  * Login/SingUp
+  * Dashboard Show all the case in which this client involves.
+  * by Click on perticular case client can view the documents in this case upload by judge/Lowyer
+  
