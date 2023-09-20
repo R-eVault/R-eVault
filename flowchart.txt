@@ -31,3 +31,10 @@
   * Dashboard Show all the case in which this client involves.
   * by Click on perticular case client can view the documents in this case upload by judge/Lowyer
   
+resources: 
+    IPFS: https://app.pinata.cloud/pinmanager
+    Remix: https://remix.ethereum.org/
+    Encruption: crypto library (by private key only accesible to stackholders who have documents);
+    compression: image-compressor.js with Key
+    
+

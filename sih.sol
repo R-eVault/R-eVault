@@ -6,6 +6,7 @@ contract DocumentManager {
     struct Document {
         string documentHash; 
         uint256 timestamp;
+        address[] access;
     }
     struct Case{
         uint256 cid;
@@ -20,8 +21,9 @@ contract DocumentManager {
     }
 
     mapping(address => mapping(uint256 => Document[] )) private documents;
-    mapping(address => Lawyer) private lawyers;
+    mapping(address => Lawyer) public lawyers;
     mapping(address => Case[]) private cases;
+    mapping(address => bool) public isRegisteredLawyer;
 
     uint256 private documentCount;
     uint256 private lawyerid;
@@ -36,9 +38,14 @@ contract DocumentManager {
     }  
 
     // FOR LAWYER AUTHENTICATION
-    function regLawyer(string memory name,string memory password,string memory gid) external {
+    modifier onlyUnregisteredLawyer() {
+        require(!isRegisteredLawyer[msg.sender], "Address is already registered as a lawyer");
+        _;
+    }
+    function regLawyer(string memory name,string memory password,string memory gid) external onlyUnregisteredLawyer {
         // use oracle in this
-        
+        lawyers[msg.sender]=Lawyer(name,gid,password);
+        isRegisteredLawyer[msg.sender] = true;
     }
     function loginLawyer(string memory password) external view  onlyRegisteredLawyer returns (bool,Lawyer memory) {
         string memory pd = lawyers[msg.sender].password;
@@ -58,7 +65,7 @@ contract DocumentManager {
         require(bytes(_documentHash).length > 0, "Document hash cannot be empty");
         require(cid >= 0, "Name cannot be empty");
         uint256 documentId = documentCount++;
-        documents[msg.sender][cid].push(Document( _documentHash, block.timestamp));
+        documents[msg.sender][cid].push(Document( _documentHash, block.timestamp,new address[](1)));
         emit DocumentUploaded(documentId, msg.sender, _documentHash, block.timestamp);
     }
     function uploadCase(string memory name,string memory details) external onlyRegisteredLawyer {
@@ -71,7 +78,14 @@ contract DocumentManager {
     function getDocument(uint256 cid) external view onlyRegisteredLawyer returns (Document[] memory)  {
         return documents[msg.sender][cid];
     }
+    function getPDocument(uint256 cid,uint256 index) external view onlyRegisteredLawyer returns (Document memory){
+        return documents[msg.sender][cid][index];
+    }
     function getCase() external view onlyRegisteredLawyer returns (Case[] memory){
         return cases[msg.sender];
     }
+    function shareDoc(uint256 cid,uint256 index, address reciver) external onlyRegisteredLawyer {
+        documents[msg.sender][cid][index].access.push(reciver);
+    }
+    
 }
